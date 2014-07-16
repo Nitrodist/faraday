@@ -96,9 +96,7 @@ module Faraday
 
     def call(env)
       retries = @options.max
-      request_body = env[:body]
       begin
-        env[:body] = request_body # after failure env[:body] is set to the response body
         @app.call(env)
       rescue @errmatch => exception
         if retries > 0 && retry_request?(env, exception)

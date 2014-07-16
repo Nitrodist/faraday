@@ -111,10 +111,10 @@ module Middleware
     def test_should_retry_with_body_if_block_returns_true_for_non_idempotent_request
       body = { :foo => :bar }
       @response_handler = lambda do |env, number_of_times_called|
-        if env[:body] != body
+        if env[:request_body] != body
           raise Exception, "Body of POST wasn't preserved!"
         else
-          env[:body] = nil # pretend the response body is now set to nil
+          env[:response_body] = nil # pretend the response body is now set to nil
           raise Errno::ETIMEDOUT
         end
       end
